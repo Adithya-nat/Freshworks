@@ -1,0 +1,161 @@
+<html>
+<head>
+<title>Employee</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  .topnav {
+  overflow: hidden;
+  background-color: #e9e9e9;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+
+.topnav a.active {
+  background-color: #2196F3;
+  color: white;
+}
+
+
+.topnav input[type=text] {
+  float: right;
+  padding: 6px;
+  border: none;
+  margin-top: 8px;
+  margin-right: 16px;
+  font-size: 17px;
+}
+.topnav button[type=button] {
+  float: right;
+  padding: 6px;
+  border: none;
+  margin-top: 8px;
+  margin-right: 16px;
+  font-size: 17px;
+}
+.card {
+
+  margin-left: auto;
+  margin-right: auto;
+  height: 50%;
+  width: 50%;
+}
+.cent {
+    display: block;
+    margin-left: auto;
+    margin-right: auto; }
+
+
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+
+.container {
+  padding: 2px 16px;
+}
+
+
+@media screen and (max-width: 600px) {
+  .topnav a, .topnav input[type=text] {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+  .topnav input[type=text] {
+    border: 1px solid #ccc;
+  }
+}
+</style>
+</head>
+<body>
+
+<div id="main">
+  
+<div id="demo" class="topnav">
+  <a class="active" href="#home">Search countries here</a>
+  
+  <input id="mySearch" type="text" placeholder="Search..">
+  <button type="button" onclick="loadDoc()">Find</button>
+</div>
+<div class="card">
+  <img class='cent'  onclick = "navigate()" id='banner-img' style='width:50%; height:50%;'>
+  <div id="cname" style="text-align:center">
+    <h4><b></b></h4> 
+    
+  </div>
+  
+</div>
+</div>
+
+  <div id="capital"></div>
+  <div id="continent"></div>
+  <div id="pop"></div>
+  <div id="lang"></div>
+<div id="back">
+</div>
+<script>
+  var message = null;
+  
+  var ans;
+  function navigate()
+  {
+    //this function displays extra information after the flag is clicked.
+    var name=document.getElementById("mySearch").value; var options = document.getElementById("back");
+    var cname= document.getElementById("main");
+    cname.innerHTML=cname.innerHTML+"Name:";
+    fetch('https://restcountries.eu/rest/v2/name/'+name+'').then(response => response.json()).then(data => {
+      document.getElementById("main").innerHTML="Name: "+data[1].name,
+      ans=data,
+      document.getElementById("capital").innerHTML="Capital: "+data[0].capital,
+      document.getElementById("pop").innerHTML="Population: "+data[0].population,
+      document.getElementById("continent").innerHTML="Continent: "+data[0].region,
+      document.getElementById("lang").innerHTML="Most spoken language: "+data[0].languages[0].name,
+      options.innerHTML = options.innerHTML + "<a href='fresh.html'><button type='reset' onclick='goback()'>GO back</button></a>",
+      console.log(data) 
+  }).catch(error => console.error(error))
+    
+  }
+  function goback()
+  {
+    window.history.go(-1);
+  }
+  
+  function loadDoc()
+  {
+    // This function creates the card according to the name entered in the search bar. It displays the first country matched from the API.
+    var name=document.getElementById("mySearch").value; console.log(name);
+    var options = document.getElementById("card");
+    
+     
+    fetch('https://restcountries.eu/rest/v2/name/'+name+'').then(response => response.json()).then(data => {
+      document.getElementById("cname").innerHTML=data[0].name+"<br>Click image for more info",
+      ans=data,
+      
+      document.getElementById("banner-img").setAttribute('src',data[0].flag),
+      console.log(data) 
+  }).catch(error => console.error(error))
+  }
+  </script>
+
+</body>
+</html>

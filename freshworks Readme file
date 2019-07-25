@@ -1,0 +1,6 @@
+This is the first website I am doing with API calls.
+1. First, you need to enter the country name.
+2. The result matches with first country it matches with the json.
+3. Then a card is created, with the flag.
+4. When you click the card, additional details are displayed.
+
